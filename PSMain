@@ -1,8 +1,70 @@
-maritime-monitor/
-│
-├─ index.html        # Main website
-├─ ships.json        # Sample ship positions (current + predicted)
-├─ README.md
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maritime Traffic Monitor</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<style>
+  body { margin:0; padding:0; font-family: Arial, sans-serif; }
+  #map { height: 100vh; }
+  #searchBar {
+    position: absolute; top:10px; left:50%; transform:translateX(-50%);
+    z-index:1000; padding:8px; border-radius:5px; border:1px solid #ccc;
+    width: 250px;
+  }
+</style>
+</head>
+<body>
+
+<input type="text" id="searchBar" placeholder="Search ship by name...">
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+var map = L.map('map').setView([20, 0], 2);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+let shipMarkers = [];
+
+// Load ship data
+fetch('ships.json')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(ship => {
+      // Current position marker (blue)
+      let currentMarker = L.circleMarker([ship.lat, ship.lon], {radius:6, color:'blue'})
+        .bindPopup(`<b>${ship.name}</b><br>Speed: ${ship.speed} knots`);
+      currentMarker.shipName = ship.name.toLowerCase();
+      currentMarker.addTo(map);
+      shipMarkers.push(currentMarker);
+
+      // Predicted position marker (red)
+      let predictedMarker = L.circleMarker([ship.pred_lat, ship.pred_lon], {radius:6, color:'red'})
+        .bindPopup(`<b>${ship.name} (Predicted)</b>`);
+      predictedMarker.shipName = ship.name.toLowerCase();
+      predictedMarker.addTo(map);
+      shipMarkers.push(predictedMarker);
+    });
+  });
+
+// Search functionality
+const searchInput = document.getElementById('searchBar');
+searchInput.addEventListener('input', function() {
+  const query = this.value.toLowerCase();
+  shipMarkers.forEach(marker => {
+    if(marker.shipName.includes(query)) {
+      marker.addTo(map);
+    } else {
+      map.removeLayer(marker);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
 [
   {
     "name": "Ever Given",
