@@ -1,0 +1,34 @@
+maritime-monitor/
+│
+├─ index.html        # Main website
+├─ ships.json        # Sample ship positions (current + predicted)
+├─ README.md
+[
+  {
+    "name": "Ever Given",
+    "lat": 30.04,
+    "lon": 32.58,
+    "speed": 13.5,
+    "heading": 90,
+    "pred_lat": 30.05,
+    "pred_lon": 32.60
+  },
+  {
+    "name": "Queen Mary 2",
+    "lat": 40.70,
+    "lon": -74.01,
+    "speed": 20,
+    "heading": 270,
+    "pred_lat": 40.69,
+    "pred_lon": -74.03
+  },
+  {
+    "name": "Harmony of the Seas",
+    "lat": 25.77,
+    "lon": -80.19,
+    "speed": 18,
+    "heading": 180,
+    "pred_lat": 25.76,
+    "pred_lon": -80.19
+  }
+]
