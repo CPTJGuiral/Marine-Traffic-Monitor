@@ -1,3 +1,6 @@
+maritime-monitor/
+│
+├─ index.html        # Main website
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,6 +68,8 @@ searchInput.addEventListener('input', function() {
 
 </body>
 </html>
+
+├─ ships.json        # Sample ship positions (current + predicted)
 [
   {
     "name": "Ever Given",
@@ -94,3 +99,5 @@ searchInput.addEventListener('input', function() {
     "pred_lon": -80.19
   }
 ]
+
+├─ README.md
